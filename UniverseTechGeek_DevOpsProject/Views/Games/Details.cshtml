@@ -1,7 +1,7 @@
 @model Universetechgeek.Models.MediaDetailsViewModel<Universetechgeek.Models.Game>
 
 @{
-    ViewData["MediaTitle"] = Model.Media?.Title ?? "Game Details";
+    ViewData["Title"] = "Game Details";
 }
 
 <main class="container mx-auto py-12 px-4">
@@ -24,16 +24,33 @@
                     <div class="rating-badge text-white">@Model.Media.Rating</div>
                 </div>
                 <p class="text-gray-600 leading-relaxed">@Model.Media.Description</p>
+                <div class="info-grid py-6">
+                    <div class="info-grid-item">
+                        <span class="text-gray-500">Avaliação</span>
+                        <span class="font-bold">★ @Model.Media.Rating</span>
+                    </div>
+                    <div class="info-grid-item">
+                        <span class="text-gray-500">Descrição</span>
+                        <span class="font-bold">@Model.Media.Description</span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        @await Html.PartialAsync("_ReviewSection", Model as dynamic, new ViewDataDictionary(ViewData)
-        {
-            { "MediaType", "Game" },
-        { "MediaId", Model.Media.Id.ToString() },
-        { "Title", Model.Media.Title },
-        { "ImageUrl", Model.Media.ImageUrl }
-        })
-        }
+    }
 
 </main>
+
+@if (Model.Media != null)
+{
+    ViewData["MediaId"] = Model.Media.Id.ToString();
+    ViewData["MediaTitle"] = Model.Media.Title;
+    ViewData["ImageUrl"] = Model.Media.ImageUrl;
+    ViewData["Reviews"] = Model.Reviews;
+    ViewData["AverageRating"] = Model.AverageRating;
+    ViewData["UserRating"] = Model.UserRating;
+    ViewData["IsInWatchlist"] = Model.IsInWatchlist;
+    ViewData["IsLoggedIn"] = Model.IsLoggedIn;
+    ViewData["MediaType"] = "Game";
+
+    @await Html.PartialAsync("_ReviewSection")
+}
