@@ -98,5 +98,6 @@ namespace Universetechgeek.Controllers
             var results = await _media.SearchGamesAsync(q);
             return Json(results.Select(g => new { id = g.Id, title = g.Title, imageUrl = g.ImageUrl, rating = g.Rating, sub = "" }));
         }
+
     }
 }
